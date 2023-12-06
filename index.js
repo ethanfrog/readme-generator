@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({ title, description, installation, usage, contributing, tests }) =>
+const generateREADME = ({ title, description, installation, usage, contributing, tests, github, email }) =>
 `# ${title}
 
 ## Description
@@ -29,6 +29,10 @@ ${contributing}
 ${tests}
 
 ## Questions
+
+If you have additional questions, I can be contacted here:
+* GitHub: [My GitHub Profile](https://github.com/${github})
+* Email: ${email}
 `;
 
 inquirer
@@ -62,6 +66,16 @@ inquirer
       type: 'input',
       name: 'tests',
       message: 'Enter test instructions:',
+    },
+    {
+      type: 'input',
+      name: 'github',
+      message: 'Enter your GitHub username:',
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter your email address:',
     },
   ])
   .then((answers) => {
