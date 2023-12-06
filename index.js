@@ -1,8 +1,10 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({ title, description, installation, usage, contributing, tests, github, email }) =>
+const generateREADME = ({title, description, installation, usage, license, contributing, tests, github, email}, badgeLink) =>
 `# ${title}
+
+${badgeLink}
 
 ## Description
 
@@ -26,6 +28,8 @@ ${installation}
 ${usage}
 
 ## License
+
+This project is utilizing the ${license} license.
 
 ## Contributing
 
@@ -65,6 +69,12 @@ inquirer
       message: 'Enter usage information:',
     },
     {
+      type: 'list',
+      name: 'license',
+      message: 'Choose a license:',
+      choices: ['Apache 2.0', 'MIT', 'MPL 2.0'],
+    },
+    {
       type: 'input',
       name: 'contributing',
       message: 'Enter contribution instructions:',
@@ -86,7 +96,18 @@ inquirer
     },
   ])
   .then((answers) => {
-    const readmePageContent = generateREADME(answers);
+    let badgeLink;
+    if (answers.license === 'Apache 2.0') {
+      badgeLink = '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)';
+    }
+    else if (answers.license === 'MIT') {
+      badgeLink = '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)';
+    }
+    else {
+      badgeLink = '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)';
+    }
+
+    const readmePageContent = generateREADME(answers, badgeLink);
 
     fs.writeFile('README.md', readmePageContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')
