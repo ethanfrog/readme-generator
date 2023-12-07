@@ -109,7 +109,7 @@ inquirer
 
     const readmePageContent = generateREADME(answers, badgeLink);
 
-    fs.writeFile('README.md', readmePageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created README.md!')
+    fs.writeFile(`${answers.title}.md`, readmePageContent, (err) =>
+      err ? console.log(err) : console.log(`Successfully created ${answers.title}.md!`)
     );
   });
